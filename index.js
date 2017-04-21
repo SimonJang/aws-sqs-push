@@ -14,7 +14,7 @@ module.exports = (message, queueName, queueOwnerId) => {
 		return Promise.reject(new TypeError('Please provide a queue name'));
 	}
 	if (queueName.length > 80 && !/^[a-zA-Z0-9_-]{1,80}/i.test(queueName)) {
-		return Promise.reject(new TypeError('Invalid queueName'));
+		return Promise.reject(new TypeError('Invalid queue name'));
 	}
 	const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
 	queueHttp = getQueueUrl(
@@ -22,12 +22,17 @@ module.exports = (message, queueName, queueOwnerId) => {
 			QueueName: queueName,
 			QueueOwnerAWSAccountId: queueOwnerId
 		}
-	).then(url => url.QueueUrl);
+	).then(url => {
+		if (url.QueueUrl) {
+			return url.QueueUrl;
+		}
+		throw (Promise.reject(new Error('Queue not found')));
+	});
 
 	const messageParams = {
 		MessageBody: message,
 		QueueUrl: queueHttp
 	};
-
-	return pify(sqs.sendMessage.bind(sqs))(messageParams).then(data => data.MessageId);
+	const request = pify(sqs.sendMessage.bind(sqs));
+	return request(messageParams);
 };
