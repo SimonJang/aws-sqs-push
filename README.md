@@ -15,19 +15,26 @@ $ npm install --save aws-sqs-push
 ```js
 const sqspush = require('aws-sqs-push');
 
-sqspush('unicorns');
+sqspush('SomeMessage', 'QueueName', 'UserAWSAccountID');
 ```
 
 
 ## API
 
-### aws-sqs-push(input, [options])
+### aws-sqs-push(message, queueName, AWSAccountID)
 
 #### input
+
+Type: `string`
+
+#### queueName
+
+Type: `string`
+
+#### AWSAccountID
 
 Type: `string`
 
 ## License
 
 MIT © [Simon](https://github.com/SimonJang)
-sqslibrary
