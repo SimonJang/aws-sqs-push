@@ -2,13 +2,15 @@
 const AWS = require('aws-sdk');
 
 class SQS {
-	sendMessage(params, cb) {
-		console.log('params: ', params);
-		console.log('callback', cb);
-		cb(undefined, {MessageId: '8a98f4d0-078b-5176-9af2-bbd871660ecb'});
+	getQueueUrl(opts, cb) {
+		console.log('executing function getQueueUrl')
+		cb(undefined, {QueueUrl: 'https://sqs.eu-west-1.amazonaws.com/12345678912/somequeue'})
+	}
+	sendMessage(opts, cb) {
+		console.log('executing function getQueueUrl')
+		cb(undefined, {MessageId: '123456789'});
 	}
 }
-
 const sqs = new SQS();
 
 AWS.SQS = function () {

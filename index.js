@@ -26,7 +26,7 @@ module.exports = (message, queueName, queueOwnerId) => {
 		if (url.QueueUrl) {
 			return url.QueueUrl;
 		}
-		return Promise.reject(new Error('Queue not found'));
+		throw new Error('Queue not found');
 	})
 		.then(url => {
 			return {
