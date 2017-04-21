@@ -1,0 +1,37 @@
+{
+  "name": "aws-sqs-push",
+  "version": "0.0.0",
+  "description": "Facade interface for pushing messages on AWS SQS",
+  "license": "MIT",
+  "repository": "SimonJang/aws-sqs-push",
+  "author": {
+    "name": "Simon",
+    "email": "simon.jang.contact@gmail.com",
+    "url": "https://github.com/SimonJang"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && nyc ava"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "AWS",
+    "SQS",
+    "facade"
+  ],
+  "dependencies": {
+    "is-obj": "^1.0.1",
+    "pify": "^2.3.0"
+  },
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "aws-sdk": "^2.44.0",
+    "nyc": "^10.0.0",
+    "sinon": "^2.1.0",
+    "xo": "^0.17.0"
+  }
+}
