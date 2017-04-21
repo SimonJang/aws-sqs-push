@@ -3,10 +3,10 @@ const AWS = require('aws-sdk');
 const pify = require('pify');
 
 const sqs = new AWS.SQS();
+const request = pify(sqs.sendMessage.bind(sqs));
+const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
 
 module.exports = (message, queueName, queueOwnerId) => {
-	let queueHttp = '';
-
 	if (!message) {
 		return Promise.reject(new TypeError('Please provide a message'));
 	}
@@ -16,8 +16,8 @@ module.exports = (message, queueName, queueOwnerId) => {
 	if (queueName.length > 80 && !/^[a-zA-Z0-9_-]{1,80}/i.test(queueName)) {
 		return Promise.reject(new TypeError('Invalid queue name'));
 	}
-	const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
-	queueHttp = getQueueUrl(
+
+	return getQueueUrl(
 		{
 			QueueName: queueName,
 			QueueOwnerAWSAccountId: queueOwnerId
@@ -26,13 +26,13 @@ module.exports = (message, queueName, queueOwnerId) => {
 		if (url.QueueUrl) {
 			return url.QueueUrl;
 		}
-		throw (Promise.reject(new Error('Queue not found')));
-	});
-
-	const messageParams = {
-		MessageBody: message,
-		QueueUrl: queueHttp
-	};
-	const request = pify(sqs.sendMessage.bind(sqs));
-	return request(messageParams);
+		return Promise.reject(new Error('Queue not found'));
+	})
+		.then(url => {
+			return {
+				MessageBody: message,
+				QueueUrl: url
+			};
+		})
+		.then(params => request(params));
 };
