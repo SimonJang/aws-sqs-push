@@ -1,6 +1,6 @@
 # aws-sqs-push [![Build Status](https://travis-ci.org/SimonJang/sqslibrary.svg?branch=master)](https://travis-ci.org/SimonJang/sqslibrary)
 
-> node module as facade for AWS SQS
+> Push messages to an AWS SQS queue
 
 
 ## Install
