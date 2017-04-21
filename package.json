@@ -1,6 +1,6 @@
 {
   "name": "aws-sqs-push",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Facade interface for pushing messages on AWS SQS",
   "license": "MIT",
   "repository": "SimonJang/aws-sqs-push",
