@@ -12,7 +12,7 @@ class SQS {
 		
 	}
 	sendMessage(opts, cb) {
-		console.log('executing function getQueueUrl')
+		console.log('FIXTURE :: executing function getQueueUrl')
 		cb(undefined, {MessageId: '123456789'});
 	}
 }
