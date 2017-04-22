@@ -13,8 +13,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "test": "xo && nyc ava" 
   },
   "files": [
     "index.js"

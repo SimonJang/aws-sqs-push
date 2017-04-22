@@ -1,4 +1,4 @@
-# aws-sqs-push [![Build Status](https://travis-ci.org/SimonJang/aws-sqs-push.svg?branch=master)](https://travis-ci.org/SimonJang/aws-sqs-push)[![Coverage Status](https://coveralls.io/repos/<account>/<repository>/badge.svg?branch=master)](https://coveralls.io/github/SimonJang/aws-sqs-push?branch=master)
+# aws-sqs-push [![Build Status](https://travis-ci.org/SimonJang/aws-sqs-push.svg?branch=master)](https://travis-ci.org/SimonJang/aws-sqs-push)[![Coverage Status](https://coveralls.io/github/SimonJang/aws-sqs-push/badge.svg?branch=master)](https://coveralls.io/github/SimonJang/aws-sqs-push?branch=master)
 
 > Push messages to an AWS SQS queue
 
