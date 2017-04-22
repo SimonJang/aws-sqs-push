@@ -6,7 +6,7 @@ const sqs = new AWS.SQS();
 const request = pify(sqs.sendMessage.bind(sqs));
 const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
 
-module.exports = (message, queueName, queueOwnerId = 0) => {
+module.exports = (message, queueName, queueOwnerId) => {
 	if (!message) {
 		return Promise.reject(new TypeError('Please provide a message'));
 	}
@@ -16,7 +16,7 @@ module.exports = (message, queueName, queueOwnerId = 0) => {
 	if (queueName.length > 80 || !/^[a-zA-Z0-9_-]{1,80}$/i.test(queueName)) {
 		return Promise.reject(new TypeError('Invalid queue name'));
 	}
-	if (!queueOwnerId || queueOwnerId.length > 12 || !/([0-9]{12})+/i.test(queueOwnerId)) {
+	if (!queueOwnerId || queueOwnerId.length !== 12 || !/([0-9]{12})+/i.test(queueOwnerId)) {
 		return Promise.reject(new TypeError('Invalid queueOwnerId'));
 	}
 
