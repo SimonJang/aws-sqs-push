@@ -3,8 +3,13 @@ const AWS = require('aws-sdk');
 
 class SQS {
 	getQueueUrl(opts, cb) {
-		console.log('executing function getQueueUrl')
-		cb(undefined, {QueueUrl: 'https://sqs.eu-west-1.amazonaws.com/12345678912/somequeue'})
+		console.log('FIXTURE :: executing function getQueueUrl');
+		console.log('FIXTURE :: printing arguments', opts);
+		if(opts['QueueName'] !== 'unknownQueue'){
+			cb(undefined, {QueueUrl: 'https://sqs.eu-west-1.amazonaws.com/12345678912/somequeue'})
+		}
+		cb(undefined, {QueueUrl: ''})
+		
 	}
 	sendMessage(opts, cb) {
 		console.log('executing function getQueueUrl')
