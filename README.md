@@ -16,6 +16,7 @@ $ npm install --save aws-sqs-push
 const sqspush = require('aws-sqs-push');
 
 sqspush('SomeMessage', 'QueueName', 'UserAWSAccountID');
+    // { MessageId: '123456789' }
 ```
 
 
