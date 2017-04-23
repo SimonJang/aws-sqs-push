@@ -40,7 +40,7 @@ Type: `string`
 Name of the queue you want to push a message to.
 
 #### options
-the `options` object contains the AWS Account ID. Required unless provived in the environment variables of the lambda. See [AWS Lambda documentation](http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) for more information.
+the `options` object contains the AWS Account ID. Required unless provided in the environment variables of the lambda. See [AWS Lambda documentation](http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) for more information on how to configure the environment.
 
 Type: `object`
 
