@@ -13,28 +13,39 @@ $ npm install --save aws-sqs-push
 ## Usage
 
 ```js
-const sqspush = require('aws-sqs-push');
+const sqsPush = require('aws-sqs-push');
 
-sqspush('SomeMessage', 'QueueName', 'UserAWSAccountID');
-    // { MessageId: '123456789' }
+sqsPush('SomeMessage', 'QueueName', 'UserAWSAccountID').then(messageId => {
+    console.log(messageId);
+    //=> '8a98f4d0-078b-5176-9af2-bbd871660ecb'
+});
 ```
 
 
 ## API
 
-### aws-sqs-push(message, queueName, AWSAccountID)
+### sqsPush(message, queueName, options)
 
-#### input
+#### message
+##### required
 
 Type: `string`
+
+Message that you want to push into queue.
 
 #### queueName
+##### required
 
 Type: `string`
 
-#### AWSAccountID
+Name of the queue you want to push a message to.
 
-Type: `string`
+#### options
+##### optional
+
+Type: `object`
+
+Reserved for future use.
 
 ## License
 
