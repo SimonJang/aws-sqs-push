@@ -24,22 +24,23 @@ sqsPush('SomeMessage', 'QueueName', {}).then(messageId => {
 
 ## API
 
-### sqsPush(message, queueName, options)
+### sqsPush(message, queueName, [options])
 
-#### message ##### required
+#### message
 
 
 Type: `string`
 
 Message that you want to push into queue.
 
-#### queueName ##### required
+#### queueName
 
 Type: `string`
 
 Name of the queue you want to push a message to.
 
-#### options ##### optional
+#### options
+Optional
 
 Type: `object`
 
