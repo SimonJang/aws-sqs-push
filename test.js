@@ -44,3 +44,9 @@ test('Should return MessageId value', async t => {
 	const check = await m('Test', 'demoQueue');
 	t.is(check, '123456789');
 });
+
+test('Should work without setting the enviroment variables', async t => {
+	sandbox.stub(process, 'env', {AWS_ACCOUNT_ID: ''});
+	const check = await m('Test', 'demoQueue', {awsAccountId: '123456789111'});
+	t.is(check, '123456789');
+});
