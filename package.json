@@ -21,10 +21,12 @@
   "keywords": [
     "AWS",
     "SQS",
-    "facade"
+    "amazon",
+    "queue",
+    "message",
+    "push"
   ],
   "dependencies": {
-    "is-obj": "^1.0.1",
     "pify": "^2.3.0"
   },
   "devDependencies": {
