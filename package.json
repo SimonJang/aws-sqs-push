@@ -1,6 +1,6 @@
 {
   "name": "aws-sqs-push",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "Push messages to an AWS SQS queue",
   "license": "MIT",
   "repository": "SimonJang/aws-sqs-push",
