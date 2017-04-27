@@ -1,7 +1,7 @@
 {
   "name": "aws-sqs-push",
   "version": "0.0.4",
-  "description": "Facade interface for pushing messages on AWS SQS",
+  "description": "Push messages to an AWS SQS queue",
   "license": "MIT",
   "repository": "SimonJang/aws-sqs-push",
   "author": {
@@ -21,9 +21,13 @@
   "keywords": [
     "AWS",
     "SQS",
-    "facade"
+    "amazon",
+    "queue",
+    "message",
+    "push"
   ],
   "dependencies": {
+    "is-aws-account-id": "^1.0.0",
     "is-obj": "^1.0.1",
     "pify": "^2.3.0"
   },
