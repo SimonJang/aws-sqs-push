@@ -27,6 +27,8 @@
     "push"
   ],
   "dependencies": {
+    "is-aws-account-id": "^1.0.0",
+    "is-obj": "^1.0.1",
     "pify": "^2.3.0"
   },
   "devDependencies": {
