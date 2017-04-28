@@ -1,25 +1,24 @@
 import test from 'ava';
 import sqs from './fixtures/fake-sqs';
-import m from '../';
-
-test('error no message', async t => {
-	await t.throws(m(), 'Please provide a message');
-});
-
-test('error no queue name', async t => {
-	await t.throws(m('test'), 'Please provide a message');
-});
+import m from '../';					// eslint-disable-line import/order
 
 test('invalid queue name', async t => {
+	await t.throws(m(), 'Expected `queueName` to be of type `string`, got `undefined`');
+	await t.throws(m(1), 'Expected `queueName` to be of type `string`, got `number`');
 	await t.throws(m('l[7777&&]l', 'test'), 'Invalid queue name');
 });
 
+test('invalid message', async t => {
+	await t.throws(m('demoQueue'), 'Expected `message` to be of type `string` or `object`, got `undefined`');
+	await t.throws(m('demoQueue', 1), 'Expected `message` to be of type `string` or `object`, got `number`');
+});
+
 test('invalid account id', async t => {
-	await t.throws(m('demoQueue', 'test', {awsAccountId: '12'}), 'Invalid queueOwnerId');
+	await t.throws(m('demoQueue', 'test', {awsAccountId: '12'}), 'Invalid AWS Account ID');
 });
 
 test('invalid queue not found', async t => {
-	await t.throws(m( 'unknownQueue', 'test', {awsAccountId: '123456789111'}), 'Queue `unknownQueue` not found');
+	await t.throws(m('unknownQueue', 'test', {awsAccountId: '123456789111'}), 'Queue `unknownQueue` not found');
 });
 
 test('should return MessageId value', async t => {

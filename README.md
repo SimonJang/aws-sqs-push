@@ -33,7 +33,7 @@ sqsPush('SomeMessage', 'QueueName', {awsAccountId: '123456789101'}).then(message
 
 #### message
 
-Type: `string`
+Type: `string` `object`
 
 Message that you want to push into queue.
 

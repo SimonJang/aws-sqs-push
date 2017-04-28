@@ -2,26 +2,26 @@
 const AWS = require('aws-sdk');
 const isObj = require('is-obj');
 const pify = require('pify');
-const awsIDCheck = require('is-aws-account-id');
+const isAwsAccountId = require('is-aws-account-id');
 
 const sqs = new AWS.SQS();
-const request = pify(sqs.sendMessage.bind(sqs));
+const sendMessage = pify(sqs.sendMessage.bind(sqs));
 const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
 
 module.exports = (queueName, message, options) => {
 	options = options || {};
 
-	if (!message) {
-		return Promise.reject(new TypeError('Please provide a message'));
+	if (typeof queueName !== 'string') {
+		return Promise.reject(new TypeError(`Expected \`queueName\` to be of type \`string\`, got \`${typeof queueName}\``));
 	}
-	if (!queueName) {
-		return Promise.reject(new TypeError('Please provide a queue name'));
+	if (typeof message !== 'string' && !isObj(message)) {
+		return Promise.reject(new TypeError(`Expected \`message\` to be of type \`string\` or \`object\`, got \`${typeof message}\``));
 	}
-	if (queueName.length > 80 || !/^[a-zA-Z0-9_-]{1,80}$/i.test(queueName)) {
+	if (!/^[a-z0-9_-]{1,80}$/i.test(queueName)) {
 		return Promise.reject(new TypeError('Invalid queue name'));
 	}
-	if (options.awsAccountId && !awsIDCheck(options.awsAccountId)) {
-		return Promise.reject(new TypeError('Invalid queueOwnerId'));
+	if (options.awsAccountId && !isAwsAccountId(options.awsAccountId)) {
+		return Promise.reject(new TypeError('Invalid AWS Account ID'));
 	}
 
 	message = isObj(message) ? JSON.stringify(message) : message;
@@ -31,18 +31,19 @@ module.exports = (queueName, message, options) => {
 			QueueName: queueName,
 			QueueOwnerAWSAccountId: options.awsAccountId
 		}
-	).then(data => {
+	)
+	.then(data => {
 		if (!data || !data.QueueUrl) {
 			throw new TypeError(`Queue \`${queueName}\` not found`);
 		}
 
 		return data.QueueUrl;
-	}).then(url => {
-		return {
+	})
+	.then(url => {
+		return sendMessage({
 			MessageBody: message,
 			QueueUrl: url
-		};
-	}).then(
-		params => request(params)
-	).then(result => result.MessageId);
+		});
+	})
+	.then(result => result.MessageId);
 };
