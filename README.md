@@ -33,7 +33,6 @@ sqsPush('SomeMessage', 'QueueName', {awsAccountId: '123456789101'}).then(message
 
 #### message
 
-
 Type: `string`
 
 Message that you want to push into queue.
@@ -45,15 +44,13 @@ Type: `string`
 Name of the queue you want to push a message to.
 
 #### options
-the `options` object contains the AWS Account ID. Required unless provided in the environment variables of the lambda. See [AWS Lambda documentation](http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) for more information on how to configure the environment.
-
-Type: `object`
 
 ##### options.awsAccountId
 
 Type: `string`
 
-ID of the root user of the AWS Account.
+AWS account ID of the account that created the queue.
+
 
 ## License
 

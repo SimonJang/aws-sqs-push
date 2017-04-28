@@ -9,9 +9,7 @@ const request = pify(sqs.sendMessage.bind(sqs));
 const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
 
 module.exports = (message, queueName, options) => {
-	options = Object.assign({
-		awsAccountId: process.env.AWS_ACCOUNT_ID
-	}, options);
+	options = options || {};
 
 	if (!message) {
 		return Promise.reject(new TypeError('Please provide a message'));
@@ -22,7 +20,7 @@ module.exports = (message, queueName, options) => {
 	if (queueName.length > 80 || !/^[a-zA-Z0-9_-]{1,80}$/i.test(queueName)) {
 		return Promise.reject(new TypeError('Invalid queue name'));
 	}
-	if (!options.awsAccountId || options.awsAccountId.length !== 12 || !awsIDCheck(options.awsAccountId)) {
+	if (options.awsAccountId && !awsIDCheck(options.awsAccountId)) {
 		return Promise.reject(new TypeError('Invalid queueOwnerId'));
 	}
 
@@ -33,11 +31,12 @@ module.exports = (message, queueName, options) => {
 			QueueName: queueName,
 			QueueOwnerAWSAccountId: options.awsAccountId
 		}
-	).then(url => {
-		if (!url.QueueUrl && url.QueueUrl.length === 0) {
-			throw new TypeError('Queue not found');
+	).then(data => {
+		if (!data || !data.QueueUrl) {
+			throw new TypeError(`Queue \`${queueName}\` not found`);
 		}
-		return url.QueueUrl;
+
+		return data.QueueUrl;
 	}).then(url => {
 		return {
 			MessageBody: message,
