@@ -8,7 +8,7 @@ const sqs = new AWS.SQS();
 const request = pify(sqs.sendMessage.bind(sqs));
 const getQueueUrl = pify(sqs.getQueueUrl.bind(sqs));
 
-module.exports = (message, queueName, options) => {
+module.exports = (queueName, message, options) => {
 	options = options || {};
 
 	if (!message) {
