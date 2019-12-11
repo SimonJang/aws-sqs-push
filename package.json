@@ -1,41 +1,78 @@
 {
-  "name": "aws-sqs-push",
-  "version": "2.0.0",
-  "description": "Push messages to an AWS SQS queue",
-  "license": "MIT",
-  "repository": "SimonJang/aws-sqs-push",
-  "author": {
-    "name": "Simon",
-    "email": "simon.jang.contact@gmail.com",
-    "url": "https://github.com/SimonJang"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "scripts": {
-    "test": "xo && nyc ava"
-  },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "AWS",
-    "SQS",
-    "amazon",
-    "queue",
-    "message",
-    "push"
-  ],
-  "dependencies": {
-    "is-aws-account-id": "^1.0.0",
-    "is-obj": "^1.0.1",
-    "pify": "^2.3.0"
-  },
-  "devDependencies": {
-    "ava": "^0.19.1",
-    "aws-sdk": "^2.44.0",
-    "nyc": "^10.0.0",
-    "sinon": "^2.1.0",
-    "xo": "^0.18.1"
-  }
+	"name": "aws-sqs-push",
+	"version": "2.0.0",
+	"description": "Push messages to an AWS (FIFO) SQS queue",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"license": "MIT",
+	"repository": "https://github.com/SimonJang/aws-sqs-push",
+	"author": {
+		"name": "Simon Jang",
+		"email": "simon.jang.contact@gmail.com",
+		"url": "https://github.com/SimonJang"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"lint": "tslint -p . --format stylish",
+		"format": "prettier --write \"source/**/*.ts\" \"lib/**/*.js\"",
+		"build": "npm run clean && tsc -p tsconfig.json",
+		"test": "npm run format && npm run lint && nyc ava",
+		"clean": "del-cli lib",
+		"prepare": "npm run test && npm run build",
+		"deploy": "npm run prepare && npx np"
+	},
+	"files": [
+		"lib"
+	],
+	"keywords": [
+		"AWS",
+		"SQS",
+		"queue",
+		"message",
+		"push",
+		"FIFO"
+	],
+	"dependencies": {
+		"is-aws-account-id": "^1.0.0",
+		"is-aws-fifo-queue": "^0.4.0",
+		"obj-clean": "^3.0.1"
+	},
+	"peerDependencies": {
+		"aws-sdk": "^2.580.0"
+	},
+	"devDependencies": {
+		"@istanbuljs/nyc-config-typescript": "^0.1.3",
+		"@types/node": "^12.12.14",
+		"@types/sinon": "^7.5.1",
+		"ava": "^2.4.0",
+		"aws-sdk": "^2.580.0",
+		"del-cli": "^3.0.0",
+		"nyc": "^14.1.1",
+		"prettier": "^1.19.1",
+		"sinon": "^2.1.0",
+		"ts-node": "^8.5.2",
+		"tslint": "^5.20.1",
+		"tslint-config-prettier": "^1.18.0",
+		"tslint-xo": "^0.16.0",
+		"typescript": "^3.7.2",
+		"xo": "^0.18.1"
+	},
+	"nyc": {
+		"extends": "@istanbuljs/nyc-config-typescript"
+	},
+	"ava": {
+		"babel": false,
+		"compileEnhancements": false,
+		"extensions": [
+			"ts"
+		],
+		"require": [
+			"ts-node/register"
+		],
+		"files": [
+			"source/test/test.ts"
+		]
+	}
 }
