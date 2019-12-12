@@ -11,9 +11,9 @@ type Request = Omit<SQS.Types.SendMessageRequest, 'QueueUrl'>;
 /**
  * Push a message on a SQS (FIFO) queue.
  *
- * @param queueName - Name of the queue to push a message on.
- * @param message - Message to be pushed on the queue.
- * @param options - Additional configuration for the message.
+ * @param queueName - Name of the queue that you want to push a message on.
+ * @param request - (Meta)data to be pushed on the queue.
+ * @param awsAccountId - AWS account id, needed for cross account communication.
  */
 export async function pushMessage(
 	queueName: string,
@@ -21,14 +21,15 @@ export async function pushMessage(
 	awsAccountId?: string
 ): Promise<SQS.Types.SendMessageResult> {
 	if (!/^[a-z0-9_-]{1,80}$/i.test(queueName) && !isAWSFifoQueue(queueName)) {
-		throw TypeError('Invalid queue name');
+		throw Error('Invalid queue name');
 	}
 
 	// tslint:disable-next-line:no-unsafe-any
 	if (awsAccountId && !isAwsAccountId(awsAccountId)) {
-		throw TypeError('Invalid AWS Account ID');
+		throw Error('Invalid AWS Account ID');
 	}
 
+	// Retrieve queue URL. This is needed for the `sendMessage` API.
 	const queueUrlData = await sqs
 		.getQueueUrl({
 			QueueName: queueName,
@@ -37,7 +38,7 @@ export async function pushMessage(
 		.promise();
 
 	if (!queueUrlData || !queueUrlData.QueueUrl) {
-		throw new TypeError(`Queue \`${queueName}\` not found`);
+		throw new Error(`Queue \`${queueName}\` not found`);
 	}
 
 	return sqs
