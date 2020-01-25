@@ -4,8 +4,6 @@ import * as isAwsAccountId from 'is-aws-account-id';
 import {isAWSFifoQueue} from 'is-aws-fifo-queue';
 import * as clean from 'obj-clean';
 
-const sqs = new AWS.SQS();
-
 type Request = Omit<SQS.Types.SendMessageRequest, 'QueueUrl'>;
 
 /**
@@ -20,6 +18,8 @@ export async function pushMessage(
 	request: Request,
 	awsAccountId?: string
 ): Promise<SQS.Types.SendMessageResult> {
+	const sqs = new AWS.SQS();
+
 	if (!/^[a-z0-9_-]{1,80}$/i.test(queueName) && !isAWSFifoQueue(queueName)) {
 		throw Error('Invalid queue name');
 	}
