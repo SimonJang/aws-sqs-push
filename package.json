@@ -1,6 +1,6 @@
 {
 	"name": "aws-sqs-push",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"description": "Push messages to an AWS (FIFO) SQS queue",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
