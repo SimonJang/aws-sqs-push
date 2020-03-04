@@ -1,7 +1,7 @@
 // tslint:disable:no-unsafe-any
 import test from 'ava';
 import sqs from './fixtures/fake-sqs';
-import {pushMessage} from '../index';
+import pushMessage from '../index';
 import {SinonStub} from 'sinon';
 
 test('should throw error when invalid account id is provided', async t => {

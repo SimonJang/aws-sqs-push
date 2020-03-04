@@ -13,7 +13,7 @@ type Request = Omit<SQS.Types.SendMessageRequest, 'QueueUrl'>;
  * @param request - (Meta)data to be pushed on the queue.
  * @param awsAccountId - AWS account id, needed for cross account communication.
  */
-export async function pushMessage(
+async function pushMessage(
 	queueName: string,
 	request: Request,
 	awsAccountId?: string
@@ -50,3 +50,5 @@ export async function pushMessage(
 		)
 		.promise();
 }
+
+export default pushMessage;
