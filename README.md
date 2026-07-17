@@ -1,19 +1,21 @@
-# aws-sqs-push [![Build Status](https://travis-ci.org/SimonJang/aws-sqs-push.svg?branch=master)](https://travis-ci.org/SimonJang/aws-sqs-push)
+# aws-sqs-push
 
-> Push messages to an AWS SQS (FIFO) queue
+> Push messages to an AWS SQS standard or FIFO queue
 
-Small wrapper around the `getQueueUrl` and `sendMessage` from the AWS SQS SDK. This will automatically retrieve the queue url when sending a message. This is useful when you only have the queue name.
+This small wrapper resolves a queue URL from its name and then calls the AWS SDK v2 `sendMessage` API.
 
 ## Requirements
 
-- Node >= 8.
+- Node.js 8 or newer
+- `aws-sdk` v2 installed by the consuming application
+
+The latest AWS SDK v2 releases require Node.js 10 or newer. Node.js 8 consumers must pin an SDK release that still supports Node.js 8; CI verifies `aws-sdk@2.580.0` as the peer-range minimum. AWS SDK v2 is end-of-support, but this package retains its v2 API to avoid a breaking change in a maintenance release.
 
 ## Install
 
+```sh
+npm install aws-sqs-push aws-sdk
 ```
-$ npm install --save aws-sqs-push
-```
-
 
 ## Usage
 
@@ -21,52 +23,48 @@ $ npm install --save aws-sqs-push
 const sqsPush = require('aws-sqs-push');
 
 const request = {
-	MessageBody: JSON.stringify({message: 'foo'});
+	MessageBody: JSON.stringify({message: 'foo'}),
 	DelaySeconds: 10
-}
+};
 
 sqsPush('QueueName', request, '123456789101').then(sendMessageResponse => {
-    // ...
+	// ...
 });
 
 const fifoRequest = {
-	messageDeduplicationId: '12312333331323'
-	messageGroupId: '8875gyukjdsioop90123',
-	MessageBody: JSON.stringify({message: 'FIFO'});
-}
+	MessageBody: JSON.stringify({message: 'FIFO'}),
+	MessageDeduplicationId: '12312333331323',
+	MessageGroupId: '8875gyukjdsioop90123'
+};
 
 sqsPush('QueueName.fifo', fifoRequest).then(sendMessageResponse => {
 	// ...
 });
 ```
 
-
 ## API
 
 ### sqsPush(queueName, request, [awsAccountId])
 
-Result is the response of the [AWS SQS sendMessage API](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#sendMessage-property)
+Returns the response from the AWS SDK v2 [`SQS.sendMessage`](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#sendMessage-property) operation.
 
 #### queueName
 
-Required: `true`
 Type: `string`
 
-Name of the queue you want to push a message to. This can be a cross account queue but permissions must be granted to able to push on that queue.
+Name of the queue to push a message to. Standard queue names may contain alphanumeric characters, hyphens, and underscores. FIFO queue names use the same character set and end in `.fifo`.
 
 #### request
 
-Required: `true`
 Type: `object`
 
-Request properties are defined in the documentation of the `sendMessage` method of the [AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SQS.html#sendMessage-property)
+Request properties accepted by the AWS SDK v2 `sendMessage` operation, except `QueueUrl`. The package resolves and supplies the queue URL itself.
 
-##### awsAccountId
+#### awsAccountId
 
-Required: `false`
-Type: `string`
+Type: `string` (optional)
 
-AWS account id of the owner of the queue. This optional parameter allows to push on cross account queue.
+The 12-digit AWS account ID of the queue owner. Use this for a cross-account queue after granting the required permissions.
 
 ## License
 
