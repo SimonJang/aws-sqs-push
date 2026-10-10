@@ -15,15 +15,15 @@
 		"node": ">=8"
 	},
 	"scripts": {
-		"clean": "node -e \"require('fs').rmSync('lib', {recursive: true, force: true})\"",
-		"build": "npm run clean && tsc --project tsconfig.json",
+		"clean": "node scripts/clean.js",
+		"build": "npm run clean && node node_modules/typescript-3-7/lib/tsc.js --project tsconfig.json",
 		"test": "npm run build && npm run test:runtime && npm run test:types",
 		"test:runtime": "node --test test/runtime.test.js",
 		"test:types": "tsc --project tsconfig.test.json && node node_modules/typescript-3-7/lib/tsc.js --project tsconfig.legacy.json",
 		"test:install": "node test/git-install-smoke.js",
 		"prepare": "npm run build",
-		"prepack": "npm test",
-		"deploy": "npm run prepack && npx np"
+		"prepublishOnly": "npm test",
+		"deploy": "npm run prepublishOnly && npx np"
 	},
 	"files": [
 		"lib"

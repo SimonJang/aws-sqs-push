@@ -81,3 +81,6 @@ jobs:
         run: |
           node test/legacy-smoke.js
           node test/node8-peer-smoke.js
+
+      - name: Verify Git dependency installation on Node 8
+        run: npm run test:install

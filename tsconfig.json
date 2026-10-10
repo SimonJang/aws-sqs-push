@@ -2,14 +2,14 @@
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"declaration": true,
-		"esModuleInterop": true,
-		"module": "node16",
-		"moduleResolution": "node16",
+		"module": "commonjs",
+		"moduleResolution": "node",
 		"outDir": "lib",
 		"rootDir": "source",
 		"strict": true,
 		"target": "ES2017",
-		"types": ["node"]
+		"types": []
 	},
+	"files": ["test/legacy-node.d.ts"],
 	"include": ["source/index.ts"]
 }
