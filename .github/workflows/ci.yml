@@ -37,6 +37,10 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Verify Git dependency installation
+        if: matrix.node == '22.x'
+        run: npm run test:install
+
       - name: Inspect package contents
         run: npm pack --dry-run
 
