@@ -45,9 +45,14 @@ jobs:
         run: npm pack --dry-run
 
   legacy-runtime:
-    name: Legacy runtime (Node 8)
+    name: Legacy runtime (Node 8, npm ${{ matrix.npm }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        npm: [5.10.0, 6.13.4]
 
     steps:
       - name: Checkout repository
@@ -68,19 +73,21 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Install minimum Node 8-compatible peer
-        run: npm install --no-save --package-lock=false aws-sdk@2.580.0
-
       - name: Use Node.js 8
         uses: actions/setup-node@v7
         with:
           node-version: 8.x
           package-manager-cache: false
 
+      - name: Use npm ${{ matrix.npm }}
+        run: npm install --global npm@${{ matrix.npm }}
+
       - name: Run built-artifact smoke test
         run: |
           node test/legacy-smoke.js
           node test/node8-peer-smoke.js
 
-      - name: Verify Git dependency installation on Node 8
+      - name: Verify uncached Git installation with strict engines
         run: npm run test:install
+        env:
+          npm_config_engine_strict: 'true'

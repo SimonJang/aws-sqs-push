@@ -140,21 +140,25 @@ test('omits an absent queue owner and includes a valid cross-account owner', asy
 });
 
 test('throws the established not-found error for missing queue URL results', async () => {
-	for (const queueUrlResult of [undefined, null, {}, {QueueUrl: ''}]) {
-		const {pushMessage} = createHarness({queueUrlResult});
+	for (const queueUrlResult of [undefined, null, {}, ...['', 0, 1, true, {}, []].map(QueueUrl => ({QueueUrl}))]) {
+		const {calls, pushMessage} = createHarness({queueUrlResult});
 		await assert.rejects(
 			pushMessage('unknownQueue', {MessageBody: 'hello'}),
 			/Queue `unknownQueue` not found/
 		);
+		assert.deepEqual(calls.sendMessage, []);
 	}
 });
 
-test('uses the resolved queue URL, preserves request cleaning, and returns the SDK result', async () => {
-	const harness = createHarness();
+test('uses the resolved queue URL, preserves FIFO fields and cleaning, and returns the SDK result', async () => {
+	const resolvedUrl = 'https://sqs.eu-west-1.amazonaws.com/123456789012/orders.fifo';
+	const harness = createHarness({queueUrlResult: {QueueUrl: resolvedUrl}});
 	const request = {
 		QueueUrl: 'https://attacker.invalid/queue',
 		MessageBody: 'hello',
 		DelaySeconds: 0,
+		MessageGroupId: 'group',
+		MessageDeduplicationId: 'dedup',
 		MessageAttributes: {
 			kept: {DataType: 'String', StringValue: 'value'},
 			removed: {DataType: '', StringValue: null}
@@ -162,17 +166,21 @@ test('uses the resolved queue URL, preserves request cleaning, and returns the S
 		MessageSystemAttributes: undefined
 	};
 
-	const result = await harness.pushMessage('orders', request);
+	const snapshot = structuredClone(request);
+	const result = await harness.pushMessage('orders.fifo', request);
 
 	assert.equal(result, harness.sentResult);
 	assert.deepEqual(harness.calls.sendMessage[0], {
-		QueueUrl: 'https://sqs.eu-west-1.amazonaws.com/123456789012/orders',
+		QueueUrl: resolvedUrl,
 		MessageBody: 'hello',
 		DelaySeconds: 0,
+		MessageGroupId: 'group',
+		MessageDeduplicationId: 'dedup',
 		MessageAttributes: {
 			kept: {DataType: 'String', StringValue: 'value'}
 		}
 	});
+	assert.deepEqual(request, snapshot);
 });
 
 test('forwards getQueueUrl and sendMessage promise rejections unchanged', async () => {

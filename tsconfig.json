@@ -8,8 +8,7 @@
 		"rootDir": "source",
 		"strict": true,
 		"target": "ES2017",
-		"types": []
+		"types": ["node"]
 	},
-	"files": ["test/legacy-node.d.ts"],
 	"include": ["source/index.ts"]
 }

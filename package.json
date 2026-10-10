@@ -16,10 +16,10 @@
 	},
 	"scripts": {
 		"clean": "node scripts/clean.js",
-		"build": "npm run clean && node node_modules/typescript-3-7/lib/tsc.js --project tsconfig.json",
+		"build": "npm run clean && tsc --project tsconfig.json",
 		"test": "npm run build && npm run test:runtime && npm run test:types",
 		"test:runtime": "node --test test/runtime.test.js",
-		"test:types": "tsc --project tsconfig.test.json && node node_modules/typescript-3-7/lib/tsc.js --project tsconfig.legacy.json",
+		"test:types": "tsc --project tsconfig.legacy.json && npm --prefix test/modern ci --ignore-scripts && node test/modern/node_modules/typescript/lib/tsc.js --project tsconfig.test.json",
 		"test:install": "node test/git-install-smoke.js",
 		"prepare": "npm run build",
 		"prepublishOnly": "npm test",
@@ -43,11 +43,10 @@
 		"aws-sdk": "^2.580.0"
 	},
 	"devDependencies": {
-		"@types/node": "22.20.1",
-		"aws-sdk": "2.1693.0",
-		"types-node-8": "npm:@types/node@8.10.66",
-		"typescript": "7.0.2",
-		"typescript-3-7": "npm:typescript@3.7.5"
+		"@types/node": "8.10.66",
+		"aws-sdk": "2.580.0",
+		"sax": "1.2.4",
+		"typescript": "3.7.5"
 	},
 	"packageManager": "npm@12.0.1"
 }

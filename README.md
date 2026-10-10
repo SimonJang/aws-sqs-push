@@ -11,6 +11,8 @@ This small wrapper resolves a queue URL from its name and then calls the AWS SDK
 
 The latest AWS SDK v2 releases require Node.js 10 or newer. Node.js 8 consumers must pin an SDK release that still supports Node.js 8; CI verifies `aws-sdk@2.580.0` as the peer-range minimum. AWS SDK v2 is end-of-support, but this package retains its v2 API to avoid a breaking change in a maintenance release.
 
+Source and Git builds use Node.js 8-compatible dependencies. The full contributor test suite runs on modern Node.js/npm and installs its current SDK/compiler tools separately in `test/modern`; those tools are not required to prepare a Git dependency. CI checks fresh Git installs on Node.js 8 with npm 5 and 6 and strict engine checks enabled.
+
 ## Install
 
 ```sh
