@@ -44,7 +44,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "8.10.66",
-		"aws-sdk": "2.580.0",
+		"aws-sdk": "2.1693.0",
 		"sax": "1.2.4",
 		"typescript": "3.7.5"
 	},
