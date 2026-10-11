@@ -1,24 +1,14 @@
 {
 	"compilerOptions": {
-		"target": "es2017",
-		"module": "commonjs",
-		"declaration": true,
-		"removeComments": true,
-		"pretty": true,
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
-		"noImplicitAny": false,
-		"noImplicitReturns": true,
-		"noImplicitUseStrict": false,
-		"noFallthroughCasesInSwitch": true,
 		"allowSyntheticDefaultImports": true,
-		"strictNullChecks": true,
+		"declaration": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
 		"outDir": "lib",
-		"strict": true
+		"rootDir": "source",
+		"strict": true,
+		"target": "ES2017",
+		"types": ["node"]
 	},
-	"exclude": [
-		"node_modules",
-		"source/test",
-		"lib"
-	]
+	"include": ["source/index.ts"]
 }

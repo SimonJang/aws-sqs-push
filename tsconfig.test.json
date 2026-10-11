@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"module": "node16",
+		"moduleResolution": "node16",
+		"noEmit": true,
+		"strict": true,
+		"target": "ES2017",
+		"types": ["node"],
+		"typeRoots": ["./test/modern/node_modules/@types"],
+		"paths": {
+			"aws-sdk": ["./test/modern/node_modules/aws-sdk"]
+		}
+	},
+	"files": ["test/types.ts"]
+}

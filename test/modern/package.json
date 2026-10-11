@@ -1,0 +1,9 @@
+{
+	"name": "aws-sqs-push-modern-tests",
+	"private": true,
+	"devDependencies": {
+		"@types/node": "22.20.1",
+		"aws-sdk": "2.1693.0",
+		"typescript": "7.0.2"
+	}
+}
